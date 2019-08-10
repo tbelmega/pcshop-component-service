@@ -4,7 +4,8 @@ import javax.persistence.Entity
 import javax.persistence.Id
 
 @Entity
-data class Mainboard(
+data class MainBoard(
        @Id
-       val id: String
+       val id: String,
+       val cpuSocket: CpuSocket
 ): PcComponent

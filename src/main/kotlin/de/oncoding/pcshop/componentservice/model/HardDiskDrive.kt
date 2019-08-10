@@ -4,8 +4,7 @@ import javax.persistence.Entity
 import javax.persistence.Id
 
 @Entity
-data class Cpu(
+data class HardDiskDrive(
         @Id
-        val id: String,
-        val cpuSocket: CpuSocket
+        val id: String
 ): PcComponent

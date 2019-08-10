@@ -1,11 +1,13 @@
 package de.oncoding.pcshop.componentservice.model
 
+import javax.persistence.ElementCollection
 import javax.persistence.Entity
 import javax.persistence.Id
 
 @Entity
-data class Cpu(
+data class CpuCooler(
         @Id
         val id: String,
-        val cpuSocket: CpuSocket
+        @ElementCollection
+        val supportedCpuSockets: Set<CpuSocket>
 ): PcComponent
