@@ -1,6 +1,6 @@
 package de.oncoding.pcshop.componentservice
 
-import de.oncoding.pcshop.componentservice.model.*
+import de.oncoding.pcshop.componentservice.model.pccomponents.*
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

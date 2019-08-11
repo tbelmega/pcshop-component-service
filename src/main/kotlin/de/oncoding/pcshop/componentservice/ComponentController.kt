@@ -1,6 +1,6 @@
 package de.oncoding.pcshop.componentservice
 
-import de.oncoding.pcshop.componentservice.model.PcComponent
+import de.oncoding.pcshop.componentservice.model.pccomponents.PcComponent
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam

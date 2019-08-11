@@ -1,7 +1,16 @@
 package de.oncoding.pcshop.componentservice
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import de.oncoding.pcshop.componentservice.model.*
+import de.oncoding.pcshop.componentservice.TestDataFactory.Companion.chassis1
+import de.oncoding.pcshop.componentservice.TestDataFactory.Companion.cpu1
+import de.oncoding.pcshop.componentservice.TestDataFactory.Companion.cpuCooler1
+import de.oncoding.pcshop.componentservice.TestDataFactory.Companion.graphicsCard1
+import de.oncoding.pcshop.componentservice.TestDataFactory.Companion.hardDiskDrive
+import de.oncoding.pcshop.componentservice.TestDataFactory.Companion.mainBoard1
+import de.oncoding.pcshop.componentservice.TestDataFactory.Companion.powerSupplyUnit1
+import de.oncoding.pcshop.componentservice.TestDataFactory.Companion.ram1
+import de.oncoding.pcshop.componentservice.TestDataFactory.Companion.solidStateDrive1
+import de.oncoding.pcshop.componentservice.model.pccomponents.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.Before
@@ -13,7 +22,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
-import java.util.*
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -66,33 +74,18 @@ class ComponentControllerTest {
         ssdRepository.deleteAll()
     }
 
-    private val mainboard1 = MainBoard(
-            id = UUID.randomUUID().toString(),
-            cpuSocket = "AM4"
-    )
-
-    private val cpu1 = Cpu(
-            id = UUID.randomUUID().toString(),
-            cpuSocket = "AM4"
-    )
-
-    private val cpuCooler1 = CpuCooler(
-            id = UUID.randomUUID().toString(),
-            supportedCpuSockets = setOf("AM4")
-    )
-
     @Test
     fun `get all - finds all components`() {
         // given
-        val chassis = chassisRepository.save(Chassis(UUID.randomUUID().toString()))
+        val chassis = chassisRepository.save(chassis1)
         val cpu = cpuRepository.save(cpu1)
         val cpuCooler = cpuCoolerRepository.save(cpuCooler1)
-        val graphicsCard = graphicsCardRepository.save(GraphicsCard(UUID.randomUUID().toString()))
-        val hdd = hardDiskDriveRepository.save(HardDiskDrive(UUID.randomUUID().toString()))
-        mainBoardRepository.save(mainboard1)
-        val psu = psuRepository.save(PowerSupplyUnit(UUID.randomUUID().toString()))
-        val ram = randomAccessMemoryRepository.save(RandomAccessMemory(UUID.randomUUID().toString()))
-        val ssd = ssdRepository.save(SolidStateDrive(UUID.randomUUID().toString()))
+        val graphicsCard = graphicsCardRepository.save(graphicsCard1)
+        val hdd = hardDiskDriveRepository.save(hardDiskDrive)
+        mainBoardRepository.save(mainBoard1)
+        val psu = psuRepository.save(powerSupplyUnit1)
+        val ram = randomAccessMemoryRepository.save(ram1)
+        val ssd = ssdRepository.save(solidStateDrive1)
 
         // when
         val filterString = "chassis,cpu,cpuCooler,graphicsCard,hdd,mainboard,psu,ram,ssd"
@@ -107,7 +100,7 @@ class ComponentControllerTest {
                 objectMapper.writeValueAsString(cpuCooler),
                 objectMapper.writeValueAsString(graphicsCard),
                 objectMapper.writeValueAsString(hdd),
-                objectMapper.writeValueAsString(mainboard1),
+                objectMapper.writeValueAsString(mainBoard1),
                 objectMapper.writeValueAsString(psu),
                 objectMapper.writeValueAsString(ram),
                 objectMapper.writeValueAsString(ssd)
@@ -117,8 +110,8 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for chassis`() {
         // given
-        mainBoardRepository.save(mainboard1)
-        val chassis = chassisRepository.save(Chassis(UUID.randomUUID().toString()))
+        mainBoardRepository.save(mainBoard1)
+        val chassis = chassisRepository.save(chassis1)
 
         // when
         val response = client.getForEntity("/api/v1/components?categories=chassis", Array<Chassis>::class.java)
@@ -131,7 +124,7 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for cpu`() {
         // given
-        mainBoardRepository.save(mainboard1)
+        mainBoardRepository.save(mainBoard1)
         val cpu = cpuRepository.save(cpu1)
 
         // when
@@ -145,7 +138,7 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for cpuCooler`() {
         // given
-        mainBoardRepository.save(mainboard1)
+        mainBoardRepository.save(mainBoard1)
         val cpuCooler = cpuCoolerRepository.save(cpuCooler1)
 
         // when
@@ -159,8 +152,8 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for graphicsCards`() {
         // given
-        mainBoardRepository.save(mainboard1)
-        val graphicsCard = graphicsCardRepository.save(GraphicsCard(UUID.randomUUID().toString()))
+        mainBoardRepository.save(mainBoard1)
+        val graphicsCard = graphicsCardRepository.save(graphicsCard1)
 
         // when
         val response = client.getForEntity("/api/v1/components?categories=graphicsCard", Array<GraphicsCard>::class.java)
@@ -174,8 +167,8 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for hdd`() {
         // given
-        mainBoardRepository.save(mainboard1)
-        val hdd = hardDiskDriveRepository.save(HardDiskDrive(UUID.randomUUID().toString()))
+        mainBoardRepository.save(mainBoard1)
+        val hdd = hardDiskDriveRepository.save(hardDiskDrive)
 
         // when
         val response = client.getForEntity(
@@ -190,7 +183,7 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for mainboards`() {
         // given
-        mainBoardRepository.save(mainboard1)
+        mainBoardRepository.save(mainBoard1)
         cpuRepository.save(cpu1)
 
         // when
@@ -200,14 +193,14 @@ class ComponentControllerTest {
 
         // then
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(response.body).containsExactlyInAnyOrder(mainboard1)
+        assertThat(response.body).containsExactlyInAnyOrder(mainBoard1)
     }
 
     @Test
     fun `get all - filters for power supply`() {
         // given
-        mainBoardRepository.save(mainboard1)
-        val psu = psuRepository.save(PowerSupplyUnit(UUID.randomUUID().toString()))
+        mainBoardRepository.save(mainBoard1)
+        val psu = psuRepository.save(powerSupplyUnit1)
 
         // when
         val response = client.getForEntity("/api/v1/components?categories=psu", Array<PowerSupplyUnit>::class.java)
@@ -220,8 +213,8 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for ram`() {
         // given
-        mainBoardRepository.save(mainboard1)
-        val ram = randomAccessMemoryRepository.save(RandomAccessMemory(UUID.randomUUID().toString()))
+        mainBoardRepository.save(mainBoard1)
+        val ram = randomAccessMemoryRepository.save(ram1)
 
         // when
         val response = client.getForEntity("/api/v1/components?categories=ram", Array<RandomAccessMemory>::class.java)
@@ -234,8 +227,8 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for ssd`() {
         // given
-        mainBoardRepository.save(mainboard1)
-        val ssd = ssdRepository.save(SolidStateDrive(UUID.randomUUID().toString()))
+        mainBoardRepository.save(mainBoard1)
+        val ssd = ssdRepository.save(solidStateDrive1)
 
         // when
         val response = client.getForEntity("/api/v1/components?categories=ssd", Array<SolidStateDrive>::class.java)
