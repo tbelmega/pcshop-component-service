@@ -2,9 +2,43 @@ package de.oncoding.pcshop.componentservice
 
 import de.oncoding.pcshop.componentservice.model.pccomponents.*
 import de.oncoding.pcshop.componentservice.model.units.*
+import org.springframework.stereotype.Service
 import java.util.*
 
-class TestDataFactory {
+@Service
+class TestDataFactory(
+        val mainBoardRepository: MainBoardRepository,
+        val chassisRepository: ChassisRepository,
+        val cpuRepository: CpuRepository,
+        val cpuCoolerRepository: CpuCoolerRepository,
+        val graphicsCardRepository: GraphicsCardRepository,
+        val hardDiskDriveRepository: HardDiskDriveRepository,
+        val powerSupplyRepository: PowerSupplyRepository,
+        val randomAccessMemoryRepository: RandomAccessMemoryRepository,
+        val solidStateDriveRepository: SolidStateDriveRepository
+) {
+
+    fun saveChassis() = chassisRepository.save(chassis1)
+    fun saveCpu() = cpuRepository.save(cpu1)
+    fun saveCpuCooler() = cpuCoolerRepository.save(cpuCooler1)
+    fun saveGraphicsCard() = graphicsCardRepository.save(graphicsCard1)
+    fun saveHDD() = hardDiskDriveRepository.save(hardDiskDrive)
+    fun saveMainBoard() = mainBoardRepository.save(mainBoard1)
+    fun savePSU() = powerSupplyRepository.save(powerSupplyUnit1)
+    fun saveRAM() = randomAccessMemoryRepository.save(ram1)
+    fun saveSSD() = solidStateDriveRepository.save(solidStateDrive1)
+
+    fun cleanAll(){
+        chassisRepository.deleteAll()
+        cpuRepository.deleteAll()
+        cpuCoolerRepository.deleteAll()
+        graphicsCardRepository.deleteAll()
+        hardDiskDriveRepository.deleteAll()
+        mainBoardRepository.deleteAll()
+        powerSupplyRepository.deleteAll()
+        randomAccessMemoryRepository.deleteAll()
+        solidStateDriveRepository.deleteAll()
+    }
 
     companion object {
         val mainBoard1 = MainBoard(

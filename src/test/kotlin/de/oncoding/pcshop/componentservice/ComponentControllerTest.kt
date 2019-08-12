@@ -1,15 +1,7 @@
 package de.oncoding.pcshop.componentservice
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import de.oncoding.pcshop.componentservice.TestDataFactory.Companion.chassis1
-import de.oncoding.pcshop.componentservice.TestDataFactory.Companion.cpu1
-import de.oncoding.pcshop.componentservice.TestDataFactory.Companion.cpuCooler1
-import de.oncoding.pcshop.componentservice.TestDataFactory.Companion.graphicsCard1
-import de.oncoding.pcshop.componentservice.TestDataFactory.Companion.hardDiskDrive
 import de.oncoding.pcshop.componentservice.TestDataFactory.Companion.mainBoard1
-import de.oncoding.pcshop.componentservice.TestDataFactory.Companion.powerSupplyUnit1
-import de.oncoding.pcshop.componentservice.TestDataFactory.Companion.ram1
-import de.oncoding.pcshop.componentservice.TestDataFactory.Companion.solidStateDrive1
 import de.oncoding.pcshop.componentservice.model.pccomponents.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
@@ -28,64 +20,31 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner::class)
 class ComponentControllerTest {
+    
+    @Autowired
+    lateinit var testDataFactory: TestDataFactory
 
     @Autowired
     lateinit var client: TestRestTemplate
 
-    @Autowired
-    lateinit var chassisRepository: ChassisRepository
-
-    @Autowired
-    lateinit var cpuRepository: CpuRepository
-
-    @Autowired
-    lateinit var cpuCoolerRepository: CpuCoolerRepository
-
-    @Autowired
-    lateinit var graphicsCardRepository: GraphicsCardRepository
-
-    @Autowired
-    lateinit var hardDiskDriveRepository: HardDiskDriveRepository
-
-    @Autowired
-    lateinit var mainBoardRepository: MainBoardRepository
-
-    @Autowired
-    lateinit var psuRepository: PowerSupplyRepository
-
-    @Autowired
-    lateinit var randomAccessMemoryRepository: RandomAccessMemoryRepository
-
-    @Autowired
-    lateinit var ssdRepository: SolidStateDriveRepository
-
-
     @Before
     @After
     fun cleanUpDb() {
-        chassisRepository.deleteAll()
-        cpuRepository.deleteAll()
-        cpuCoolerRepository.deleteAll()
-        graphicsCardRepository.deleteAll()
-        hardDiskDriveRepository.deleteAll()
-        mainBoardRepository.deleteAll()
-        psuRepository.deleteAll()
-        randomAccessMemoryRepository.deleteAll()
-        ssdRepository.deleteAll()
+        testDataFactory.cleanAll()
     }
 
     @Test
     fun `get all - finds all components`() {
         // given
-        val chassis = chassisRepository.save(chassis1)
-        val cpu = cpuRepository.save(cpu1)
-        val cpuCooler = cpuCoolerRepository.save(cpuCooler1)
-        val graphicsCard = graphicsCardRepository.save(graphicsCard1)
-        val hdd = hardDiskDriveRepository.save(hardDiskDrive)
-        mainBoardRepository.save(mainBoard1)
-        val psu = psuRepository.save(powerSupplyUnit1)
-        val ram = randomAccessMemoryRepository.save(ram1)
-        val ssd = ssdRepository.save(solidStateDrive1)
+        val chassis = testDataFactory.saveChassis()
+        val cpu = testDataFactory.saveCpu()
+        val cpuCooler = testDataFactory.saveCpuCooler()
+        val graphicsCard = testDataFactory.saveGraphicsCard()
+        val hdd = testDataFactory.saveHDD()
+        val mainBoard = testDataFactory.saveMainBoard()
+        val psu = testDataFactory.savePSU()
+        val ram = testDataFactory.saveRAM()
+        val ssd = testDataFactory.saveSSD()
 
         // when
         val filterString = "chassis,cpu,cpuCooler,graphicsCard,hdd,mainboard,psu,ram,ssd"
@@ -100,7 +59,7 @@ class ComponentControllerTest {
                 objectMapper.writeValueAsString(cpuCooler),
                 objectMapper.writeValueAsString(graphicsCard),
                 objectMapper.writeValueAsString(hdd),
-                objectMapper.writeValueAsString(mainBoard1),
+                objectMapper.writeValueAsString(mainBoard),
                 objectMapper.writeValueAsString(psu),
                 objectMapper.writeValueAsString(ram),
                 objectMapper.writeValueAsString(ssd)
@@ -110,8 +69,8 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for chassis`() {
         // given
-        mainBoardRepository.save(mainBoard1)
-        val chassis = chassisRepository.save(chassis1)
+        testDataFactory.saveMainBoard()
+        val chassis = testDataFactory.saveChassis()
 
         // when
         val response = client.getForEntity("/api/v1/components?categories=chassis", Array<Chassis>::class.java)
@@ -124,8 +83,8 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for cpu`() {
         // given
-        mainBoardRepository.save(mainBoard1)
-        val cpu = cpuRepository.save(cpu1)
+        testDataFactory.saveMainBoard()
+        val cpu = testDataFactory.saveCpu()
 
         // when
         val response = client.getForEntity("/api/v1/components?categories=cpu", Array<Cpu>::class.java)
@@ -138,8 +97,8 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for cpuCooler`() {
         // given
-        mainBoardRepository.save(mainBoard1)
-        val cpuCooler = cpuCoolerRepository.save(cpuCooler1)
+        testDataFactory.saveMainBoard()
+        val cpuCooler = testDataFactory.saveCpuCooler()
 
         // when
         val response = client.getForEntity("/api/v1/components?categories=cpuCooler", Array<CpuCooler>::class.java)
@@ -152,8 +111,8 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for graphicsCards`() {
         // given
-        mainBoardRepository.save(mainBoard1)
-        val graphicsCard = graphicsCardRepository.save(graphicsCard1)
+        testDataFactory.saveMainBoard()
+        val graphicsCard = testDataFactory.saveGraphicsCard()
 
         // when
         val response = client.getForEntity("/api/v1/components?categories=graphicsCard", Array<GraphicsCard>::class.java)
@@ -167,8 +126,8 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for hdd`() {
         // given
-        mainBoardRepository.save(mainBoard1)
-        val hdd = hardDiskDriveRepository.save(hardDiskDrive)
+        testDataFactory.saveMainBoard()
+        val hdd = testDataFactory.saveHDD()
 
         // when
         val response = client.getForEntity(
@@ -183,8 +142,8 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for mainboards`() {
         // given
-        mainBoardRepository.save(mainBoard1)
-        cpuRepository.save(cpu1)
+        testDataFactory.saveMainBoard()
+        testDataFactory.saveCpu()
 
         // when
         val response = client.getForEntity(
@@ -199,8 +158,8 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for power supply`() {
         // given
-        mainBoardRepository.save(mainBoard1)
-        val psu = psuRepository.save(powerSupplyUnit1)
+        testDataFactory.saveMainBoard()
+        val psu = testDataFactory.savePSU()
 
         // when
         val response = client.getForEntity("/api/v1/components?categories=psu", Array<PowerSupplyUnit>::class.java)
@@ -213,8 +172,8 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for ram`() {
         // given
-        mainBoardRepository.save(mainBoard1)
-        val ram = randomAccessMemoryRepository.save(ram1)
+        testDataFactory.saveMainBoard()
+        val ram = testDataFactory.saveRAM()
 
         // when
         val response = client.getForEntity("/api/v1/components?categories=ram", Array<RandomAccessMemory>::class.java)
@@ -227,8 +186,8 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for ssd`() {
         // given
-        mainBoardRepository.save(mainBoard1)
-        val ssd = ssdRepository.save(solidStateDrive1)
+        testDataFactory.saveMainBoard()
+        val ssd = testDataFactory.saveSSD()
 
         // when
         val response = client.getForEntity("/api/v1/components?categories=ssd", Array<SolidStateDrive>::class.java)
