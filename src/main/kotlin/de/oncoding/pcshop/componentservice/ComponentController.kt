@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class ComponentController(
-        val mainBoardRepository: MainBoardRepository,
+        val motherBoardRepository: MotherBoardRepository,
         val chassisRepository: ChassisRepository,
         val cpuRepository: CpuRepository,
         val cpuCoolerRepository: CpuCoolerRepository,
@@ -33,7 +33,7 @@ class ComponentController(
             "cpuCooler"-> cpuCoolerRepository
             "graphicsCard"-> graphicsCardRepository
             "hdd"-> hardDiskDriveRepository
-            "mainboard"-> mainBoardRepository
+            "motherBoard"-> motherBoardRepository
             "psu"-> powerSupplyRepository
             "ram"-> randomAccessMemoryRepository
             "ssd"-> solidStateDriveRepository

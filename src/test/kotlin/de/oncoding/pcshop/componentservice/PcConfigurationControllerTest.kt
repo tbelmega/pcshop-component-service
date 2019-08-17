@@ -25,8 +25,8 @@ class PcConfigurationControllerTest {
     @Test
     fun `store a configuration - OK`() {
         // given
-        testDataFactory.saveMainBoard()
-        val pcConfigurationCreateRequest = PcConfigurationCreateRequest(TestDataFactory.mainBoard1.id)
+        testDataFactory.saveMotherBoard()
+        val pcConfigurationCreateRequest = PcConfigurationCreateRequest(TestDataFactory.motherBoard1.id)
 
         // when
         val response = client.postForEntity(
@@ -40,9 +40,9 @@ class PcConfigurationControllerTest {
     }
 
     @Test
-    fun `store a configuration - mainboard doesnt exist - BAD REQUEST`() {
+    fun `store a configuration - motherBoard doesnt exist - BAD REQUEST`() {
         // given
-        val pcConfigurationCreateRequest = PcConfigurationCreateRequest(TestDataFactory.mainBoard1.id)
+        val pcConfigurationCreateRequest = PcConfigurationCreateRequest(TestDataFactory.motherBoard1.id)
 
         // when
         val response = client.postForEntity(

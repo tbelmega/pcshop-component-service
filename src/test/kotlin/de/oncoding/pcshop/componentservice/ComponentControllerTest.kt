@@ -1,7 +1,7 @@
 package de.oncoding.pcshop.componentservice
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import de.oncoding.pcshop.componentservice.TestDataFactory.Companion.mainBoard1
+import de.oncoding.pcshop.componentservice.TestDataFactory.Companion.motherBoard1
 import de.oncoding.pcshop.componentservice.model.pccomponents.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
@@ -41,13 +41,13 @@ class ComponentControllerTest {
         val cpuCooler = testDataFactory.saveCpuCooler()
         val graphicsCard = testDataFactory.saveGraphicsCard()
         val hdd = testDataFactory.saveHDD()
-        val mainBoard = testDataFactory.saveMainBoard()
+        val motherBoard = testDataFactory.saveMotherBoard()
         val psu = testDataFactory.savePSU()
         val ram = testDataFactory.saveRAM()
         val ssd = testDataFactory.saveSSD()
 
         // when
-        val filterString = "chassis,cpu,cpuCooler,graphicsCard,hdd,mainboard,psu,ram,ssd"
+        val filterString = "chassis,cpu,cpuCooler,graphicsCard,hdd,motherBoard,psu,ram,ssd"
         val response = client.getForEntity("/api/v1/components?categories=$filterString", String::class.java)
 
         // then
@@ -59,7 +59,7 @@ class ComponentControllerTest {
                 objectMapper.writeValueAsString(cpuCooler),
                 objectMapper.writeValueAsString(graphicsCard),
                 objectMapper.writeValueAsString(hdd),
-                objectMapper.writeValueAsString(mainBoard),
+                objectMapper.writeValueAsString(motherBoard),
                 objectMapper.writeValueAsString(psu),
                 objectMapper.writeValueAsString(ram),
                 objectMapper.writeValueAsString(ssd)
@@ -69,7 +69,7 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for chassis`() {
         // given
-        testDataFactory.saveMainBoard()
+        testDataFactory.saveMotherBoard()
         val chassis = testDataFactory.saveChassis()
 
         // when
@@ -83,7 +83,7 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for cpu`() {
         // given
-        testDataFactory.saveMainBoard()
+        testDataFactory.saveMotherBoard()
         val cpu = testDataFactory.saveCpu()
 
         // when
@@ -97,7 +97,7 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for cpuCooler`() {
         // given
-        testDataFactory.saveMainBoard()
+        testDataFactory.saveMotherBoard()
         val cpuCooler = testDataFactory.saveCpuCooler()
 
         // when
@@ -111,7 +111,7 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for graphicsCards`() {
         // given
-        testDataFactory.saveMainBoard()
+        testDataFactory.saveMotherBoard()
         val graphicsCard = testDataFactory.saveGraphicsCard()
 
         // when
@@ -126,7 +126,7 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for hdd`() {
         // given
-        testDataFactory.saveMainBoard()
+        testDataFactory.saveMotherBoard()
         val hdd = testDataFactory.saveHDD()
 
         // when
@@ -140,25 +140,25 @@ class ComponentControllerTest {
     }
 
     @Test
-    fun `get all - filters for mainboards`() {
+    fun `get all - filters for motherBoards`() {
         // given
-        testDataFactory.saveMainBoard()
+        testDataFactory.saveMotherBoard()
         testDataFactory.saveCpu()
 
         // when
         val response = client.getForEntity(
-                "/api/v1/components?categories=mainboard",
-                Array<MainBoard>::class.java)
+                "/api/v1/components?categories=motherBoard",
+                Array<MotherBoard>::class.java)
 
         // then
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(response.body).containsExactlyInAnyOrder(mainBoard1)
+        assertThat(response.body).containsExactlyInAnyOrder(motherBoard1)
     }
 
     @Test
     fun `get all - filters for power supply`() {
         // given
-        testDataFactory.saveMainBoard()
+        testDataFactory.saveMotherBoard()
         val psu = testDataFactory.savePSU()
 
         // when
@@ -172,7 +172,7 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for ram`() {
         // given
-        testDataFactory.saveMainBoard()
+        testDataFactory.saveMotherBoard()
         val ram = testDataFactory.saveRAM()
 
         // when
@@ -186,7 +186,7 @@ class ComponentControllerTest {
     @Test
     fun `get all - filters for ssd`() {
         // given
-        testDataFactory.saveMainBoard()
+        testDataFactory.saveMotherBoard()
         val ssd = testDataFactory.saveSSD()
 
         // when

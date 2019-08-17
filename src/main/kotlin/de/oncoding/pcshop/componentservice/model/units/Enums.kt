@@ -5,7 +5,7 @@ enum class CpuSocket {
     LGA1151
 }
 
-enum class MainBoardFormat {
+enum class MotherBoardFormat {
     MicroATX,
     EATX,
     SATX

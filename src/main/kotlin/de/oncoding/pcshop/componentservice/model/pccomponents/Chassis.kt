@@ -1,7 +1,7 @@
 package de.oncoding.pcshop.componentservice.model.pccomponents
 
 import de.oncoding.pcshop.componentservice.model.units.ChassisFormat
-import de.oncoding.pcshop.componentservice.model.units.MainBoardFormat
+import de.oncoding.pcshop.componentservice.model.units.MotherBoardFormat
 import javax.persistence.Entity
 import javax.persistence.Id
 
@@ -11,6 +11,6 @@ data class Chassis(
         val id: String,
         override val model: String,
         override val manufacturer: String,
-        val mainBoardFormat: MainBoardFormat,
+        val motherBoardFormat: MotherBoardFormat,
         val size: ChassisFormat
 ): PcComponent

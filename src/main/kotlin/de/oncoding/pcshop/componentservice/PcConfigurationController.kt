@@ -8,21 +8,21 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class PcConfigurationController(
-        val mainBoardRepository: MainBoardRepository
+        val motherBoardRepository: MotherBoardRepository
 ) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createPcConfiguration(@RequestBody configuration: PcConfigurationCreateRequest){
-        if (!mainBoardRepository.existsById(configuration.mainBoardId))
-            throw BadRequestException("No MainBoard with id ${configuration.mainBoardId} found.")
+        if (!motherBoardRepository.existsById(configuration.motherBoardId))
+            throw BadRequestException("No MotherBoard with id ${configuration.motherBoardId} found.")
     }
 
 }
 
 
 data class PcConfigurationCreateRequest(
-        val mainBoardId: String
+        val motherBoardId: String
 )
 
 data class PcConfigurationCreateResponse(

@@ -7,7 +7,7 @@ import java.util.*
 
 @Service
 class TestDataFactory(
-        val mainBoardRepository: MainBoardRepository,
+        val motherBoardRepository: MotherBoardRepository,
         val chassisRepository: ChassisRepository,
         val cpuRepository: CpuRepository,
         val cpuCoolerRepository: CpuCoolerRepository,
@@ -23,7 +23,7 @@ class TestDataFactory(
     fun saveCpuCooler() = cpuCoolerRepository.save(cpuCooler1)
     fun saveGraphicsCard() = graphicsCardRepository.save(graphicsCard1)
     fun saveHDD() = hardDiskDriveRepository.save(hardDiskDrive)
-    fun saveMainBoard() = mainBoardRepository.save(mainBoard1)
+    fun saveMotherBoard() = motherBoardRepository.save(motherBoard1)
     fun savePSU() = powerSupplyRepository.save(powerSupplyUnit1)
     fun saveRAM() = randomAccessMemoryRepository.save(ram1)
     fun saveSSD() = solidStateDriveRepository.save(solidStateDrive1)
@@ -34,19 +34,19 @@ class TestDataFactory(
         cpuCoolerRepository.deleteAll()
         graphicsCardRepository.deleteAll()
         hardDiskDriveRepository.deleteAll()
-        mainBoardRepository.deleteAll()
+        motherBoardRepository.deleteAll()
         powerSupplyRepository.deleteAll()
         randomAccessMemoryRepository.deleteAll()
         solidStateDriveRepository.deleteAll()
     }
 
     companion object {
-        val mainBoard1 = MainBoard(
+        val motherBoard1 = MotherBoard(
                 id = UUID.randomUUID().toString(),
                 cpuSocket = CpuSocket.AM4,
                 manufacturer = "MSI",
                 model = "Z270 Gaming Pro Carbon",
-                format = MainBoardFormat.MicroATX,
+                format = MotherBoardFormat.MicroATX,
                 chipset = "Z270",
                 maxRAMClockRateInMHz = MegaHerz(3800),
                 ramType = RAMType.DDR4
@@ -74,7 +74,7 @@ class TestDataFactory(
                 id = UUID.randomUUID().toString(),
                 model = "RVX01",
                 manufacturer = "Silver Stone",
-                mainBoardFormat = MainBoardFormat.MicroATX,
+                motherBoardFormat = MotherBoardFormat.MicroATX,
                 size = ChassisFormat.MidTower
         )
 

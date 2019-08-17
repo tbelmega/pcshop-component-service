@@ -20,7 +20,7 @@ interface GraphicsCardRepository : JpaRepository<GraphicsCard, String>
 interface HardDiskDriveRepository : JpaRepository<HardDiskDrive, String>
 
 @Repository
-interface MainBoardRepository : JpaRepository<MainBoard, String>
+interface MotherBoardRepository : JpaRepository<MotherBoard, String>
 
 @Repository
 interface PowerSupplyRepository : JpaRepository<PowerSupplyUnit, String>
