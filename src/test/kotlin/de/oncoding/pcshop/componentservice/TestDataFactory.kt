@@ -19,11 +19,22 @@ class TestDataFactory(
 ) {
 
     fun saveChassis() = chassisRepository.save(chassis1)
-    fun saveCpu() = cpuRepository.save(cpu1)
-    fun saveCpuCooler() = cpuCoolerRepository.save(cpuCooler1)
+    fun saveCpu(socket: CpuSocket = CpuSocket.AM4) = cpuRepository.save(cpu1.copy(
+            id = UUID.randomUUID().toString(),
+            cpuSocket = socket
+    ))
+    fun saveCpuCooler(
+            sockets: Set<CpuSocket> = setOf(CpuSocket.AM4)
+    ) = cpuCoolerRepository.save(cpuCooler1.copy(
+            id = UUID.randomUUID().toString(),
+            supportedCpuSockets = sockets
+    ))
     fun saveGraphicsCard() = graphicsCardRepository.save(graphicsCard1)
     fun saveHDD() = hardDiskDriveRepository.save(hardDiskDrive)
-    fun saveMotherBoard() = motherBoardRepository.save(motherBoard1)
+    fun saveMotherBoard(format: MotherBoardFormat = MotherBoardFormat.MicroATX) = motherBoardRepository.save(motherBoard1.copy(
+            id = UUID.randomUUID().toString(),
+            format = format
+    ))
     fun savePSU() = powerSupplyRepository.save(powerSupplyUnit1)
     fun saveRAM() = randomAccessMemoryRepository.save(ram1)
     fun saveSSD() = solidStateDriveRepository.save(solidStateDrive1)

@@ -1,5 +1,6 @@
-package de.oncoding.pcshop.componentservice
+package de.oncoding.pcshop.componentservice.controller
 
+import de.oncoding.pcshop.componentservice.*
 import de.oncoding.pcshop.componentservice.model.pccomponents.PcComponent
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.web.bind.annotation.GetMapping
@@ -19,7 +20,7 @@ class ComponentController(
         val solidStateDriveRepository: SolidStateDriveRepository
 ) {
 
-    @GetMapping
+    @GetMapping(value = ["/api/v1/components"])
     fun getComponents(
             @RequestParam categories: Set<String>
     ): List<PcComponent> {
