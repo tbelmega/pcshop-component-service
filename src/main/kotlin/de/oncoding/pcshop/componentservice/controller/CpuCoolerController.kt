@@ -34,7 +34,6 @@ class CpuCoolerController(
 //        }
 //    }
 
-//    first implementation
 //    @GetMapping(value = ["/api/v1/cpucoolers"])
 //    fun getCpuCoolers(): List<CpuCooler> {
 //        return cpuCoolerRepository.findAll()

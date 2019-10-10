@@ -35,24 +35,36 @@ class CpuCoolerControllerTest {
     @Test
     fun `get cpucoolers - returns all CpuCoolers`() {
         // given
-        val cooler1 = testDataFactory.saveCpuCooler(setOf(CpuSocket.AM4))
-        val cooler2 = testDataFactory.saveCpuCooler(setOf(CpuSocket.LGA1151))
+        val cooler1 = testDataFactory.saveCpuCooler(
+                setOf(CpuSocket.AM4)
+        )
+        val cooler2 = testDataFactory.saveCpuCooler(
+                setOf(CpuSocket.LGA1151)
+        )
         testDataFactory.saveChassis()
 
         // when
         val response = client.getForEntity(
-                "/api/v1/cpucoolers", Array<CpuCooler>::class.java)
+                "/api/v1/cpucoolers", Array<CpuCooler>::class.java
+        )
 
         // then
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(response.body).containsExactlyInAnyOrder(cooler1, cooler2)
+        assertThat(response.body).containsExactlyInAnyOrder(
+                cooler1,
+                cooler2
+        )
     }
 
     @Test
     fun `get cpucoolers - filters for socket`() {
         // given
-        val cooler1 = testDataFactory.saveCpuCooler(setOf(CpuSocket.AM4))
-        val cooler2 = testDataFactory.saveCpuCooler(setOf(CpuSocket.AM4, CpuSocket.LGA1151))
+        val cooler1 = testDataFactory.saveCpuCooler(
+                setOf(CpuSocket.AM4)
+        )
+        val cooler2 = testDataFactory.saveCpuCooler(
+                setOf(CpuSocket.AM4, CpuSocket.LGA1151)
+        )
         testDataFactory.saveCpuCooler(setOf(CpuSocket.LGA1151))
         testDataFactory.saveChassis()
 
