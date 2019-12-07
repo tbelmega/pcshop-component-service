@@ -7,43 +7,7 @@
   },
   "interactions": [
     {
-      "description": "a request to get all am4 compatible coolers",
-      "request": {
-        "method": "GET",
-        "path": "/api/v1/cpucoolers",
-        "query": {
-          "socket": [
-            "am4"
-          ]
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/json;charset\u003dUTF-8"
-        },
-        "body": [
-          {
-            "id": "12345",
-            "model": "MasterAir Pro 4",
-            "manufacturer": "Cooler Master",
-            "supportedCpuSockets": [
-              "AM4"
-            ],
-            "airFlowInCFM": {
-              "cfm": "66.7"
-            }
-          }
-        ]
-      },
-      "providerStates": [
-        {
-          "name": "coolers in the database"
-        }
-      ]
-    },
-    {
-      "description": "a request to get all am4 compatible coolers (2)",
+      "description": "a request to get all am4 compatible coolers (dsl)",
       "request": {
         "method": "GET",
         "path": "/api/v1/cpucoolers",
@@ -61,13 +25,14 @@
         "body": [
           {
             "supportedCpuSockets": [
+              "AM4",
               "AM4"
             ],
             "model": "MasterAir Pro 4",
             "id": "12345",
             "manufacturer": "Cooler Master",
             "airFlowInCFM": {
-              "cfm": "66.7"
+              "cfm": 66.7
             }
           }
         ],
@@ -106,7 +71,16 @@
               ],
               "combine": "AND"
             },
-            "$[*].supportedCpuSockets[0]": {
+            "$[*].supportedCpuSockets": {
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 0
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].supportedCpuSockets[*]": {
               "matchers": [
                 {
                   "match": "type"
@@ -115,6 +89,151 @@
               "combine": "AND"
             },
             "$[*].airFlowInCFM.cfm": {
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ],
+              "combine": "AND"
+            }
+          },
+          "header": {
+            "Content-Type": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "application/json(;\\s?charset\u003d[\\w\\-]+)?"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "coolers in the database"
+        }
+      ]
+    },
+    {
+      "description": "a request to get all am4 compatible coolers (json)",
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/cpucoolers",
+        "query": {
+          "socket": [
+            "am4"
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json;charset\u003dUTF-8"
+        },
+        "body": [
+          {
+            "id": "12345",
+            "model": "MasterAir Pro 4",
+            "manufacturer": "Cooler Master",
+            "supportedCpuSockets": [
+              "AM4"
+            ],
+            "airFlowInCFM": {
+              "cfm": 66.7
+            }
+          }
+        ]
+      },
+      "providerStates": [
+        {
+          "name": "coolers in the database"
+        }
+      ]
+    },
+    {
+      "description": "a request to get all am4 compatible coolers (pact utils)",
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/cpucoolers",
+        "query": {
+          "socket": [
+            "am4"
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json;charset\u003dUTF-8"
+        },
+        "body": [
+          {
+            "supportedCpuSockets": [
+              "AM4"
+            ],
+            "model": "MasterAir Pro 4",
+            "id": "12345",
+            "airFlowInCFM": {
+              "cfm": 66.7
+            },
+            "manufacturer": "Cooler Master"
+          }
+        ],
+        "matchingRules": {
+          "body": {
+            "$": {
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].airFlowInCFM.cfm": {
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].id": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].manufacturer": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].model": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].supportedCpuSockets": {
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 0
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].supportedCpuSockets[*]": {
               "matchers": [
                 {
                   "match": "type"
